@@ -16,50 +16,83 @@
 	<title>Agenda de Serviços</title>
 	<script type="text/javascript" src="js/primefaces-locale.js"></script>
 	<link href="css/bootstrap.css" rel="stylesheet" media="screen" />
-	<link href="css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
+	<link href="css/bootstrap-responsive.css" rel="stylesheet"
+		media="screen" />
 </h:head>
 <h:body>
 	<h:form id="frm">
-		
-		<h:panelGrid columnClasses="value">
-			<h3 style="margin-top: 0">Agenda</h3>
-			<p:schedule locale="pt_br_schedule" id="schedule" value="#{scheduleView.eventModel}"
-				widgetVar="myschedule" timeZone="GMT+3">
+		<div class="container-fluid">
+			<div class="">
+				Logo da Empresa, dados, ect.
+				<p:separator />
+			</div>
+			<div class="row-fluid">
+				<div class="span2">
+					<!--conteúdo da lateral-->
+					<p:menu>
+						<p:submenu label="Cadastro">
+							<p:menuitem value="Clientes" />
+							<p:menuitem value="Funcionarios" />
+							<p:menuitem value="Serviços" />
+						</p:submenu>
+						<p:submenu label="Relatorios">
+							<p:menuitem value="Clientes" />
+							<p:menuitem value="Funcionarios" />
+							<p:menuitem value="Serviços" />
+						</p:submenu>
+					</p:menu>
+				</div>
+				<div class="span10">
 
-				<p:ajax event="dateSelect" listener="#{scheduleView.onDateSelect}"
-					update="eventDetails" oncomplete="PF('eventDialog').show();" />
-				<p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}"
-					update="eventDetails" oncomplete="PF('eventDialog').show();" />
-				<p:ajax event="eventMove" listener="#{scheduleView.onEventMove}" />
-				<p:ajax event="eventResize" listener="#{scheduleView.onEventResize}"/>
-			</p:schedule>
-		</h:panelGrid>
+					<h:panelGrid columnClasses="value">
+						<h3 style="margin-top: 0">Agendamentos</h3>
+						<p:schedule locale="pt_br_schedule" id="schedule"
+							value="#{scheduleView.eventModel}" widgetVar="myschedule"
+							timeZone="GMT+3">
 
-		<p:dialog widgetVar="eventDialog" header="Event Details"
-			showEffect="clip" hideEffect="clip">
-			<h:panelGrid id="eventDetails" columns="2">
-				<p:outputLabel for="cliente" value="Cliente:" />
-				<p:inputText id="cliente" value="#{scheduleView.event.title}"
-					required="true" />
+							<p:ajax event="dateSelect"
+								listener="#{scheduleView.onDateSelect}" update="eventDetails"
+								oncomplete="PF('eventDialog').show();" />
+							<p:ajax event="eventSelect"
+								listener="#{scheduleView.onEventSelect}" update="eventDetails"
+								oncomplete="PF('eventDialog').show();" />
+							<p:ajax event="eventMove" listener="#{scheduleView.onEventMove}" />
+							<p:ajax event="eventResize"
+								listener="#{scheduleView.onEventResize}" />
+						</p:schedule>
+					</h:panelGrid>
 
-				<p:outputLabel for="de" value="De:" />
-				<p:calendar locale="pt_BR" id="de" value="#{scheduleView.event.startDate}"
-					timeZone="GMT+3" pattern="dd/MM/yyyy HH:mm" />
+					<p:dialog widgetVar="eventDialog" header="Event Details"
+						showEffect="clip" hideEffect="clip">
+						<h:panelGrid id="eventDetails" columns="2">
+							<p:outputLabel for="cliente" value="Cliente:" />
+							<p:inputText id="cliente" value="#{scheduleView.event.title}"
+								required="true" />
 
-				<p:outputLabel for="ate" value="Até:" />
-				<p:calendar locale="pt_BR" id="ate" value="#{scheduleView.event.endDate}"
-					timeZone="GMT+3" pattern="dd/MM/yyyy HH:mm" />
+							<p:outputLabel for="de" value="De:" />
+							<p:calendar locale="pt_BR" id="de"
+								value="#{scheduleView.event.startDate}" timeZone="GMT+3"
+								pattern="dd/MM/yyyy HH:mm" />
 
-				<p:outputLabel for="tododia" value="O Dia todo:" />
-				<h:selectBooleanCheckbox id="tododia"
-					value="#{scheduleView.event.allDay}" />
+							<p:outputLabel for="ate" value="Até:" />
+							<p:calendar locale="pt_BR" id="ate"
+								value="#{scheduleView.event.endDate}" timeZone="GMT+3"
+								pattern="dd/MM/yyyy HH:mm" />
 
-				<p:commandButton type="resetar" value="Resetar:" />
-				<p:commandButton id="agendar" value="Agendar"
-					actionListener="#{scheduleView.addEvent}"
-					oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
-			</h:panelGrid>
-		</p:dialog>
+							<p:outputLabel for="tododia" value="O Dia todo:" />
+							<h:selectBooleanCheckbox id="tododia"
+								value="#{scheduleView.event.allDay}" />
+
+							<p:commandButton type="resetar" value="Resetar:" />
+							<p:commandButton id="agendar" value="Agendar"
+								actionListener="#{scheduleView.addEvent}"
+								oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+						</h:panelGrid>
+					</p:dialog>
+				</div>
+			</div>
+			<p:separator />
+		</div>
 	</h:form>
 </h:body>
 </html>
