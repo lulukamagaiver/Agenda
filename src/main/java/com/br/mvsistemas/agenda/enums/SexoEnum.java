@@ -1,12 +1,12 @@
 package com.br.mvsistemas.agenda.enums;
 
-public enum Sexo {
+public enum SexoEnum {
 	M("Masculino"), 
 	F("Feminino");
 	
 	private String descricao;
 
-	Sexo(String descricao) {
+	SexoEnum(String descricao) {
 		this.descricao = descricao;
 	}
 	

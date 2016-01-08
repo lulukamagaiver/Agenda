@@ -1,29 +1,67 @@
 package com.br.mvsistemas.agenda.bean;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
-import com.br.mvsistemas.agenda.enums.Sexo;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Null;
 
-public class Pessoa implements Serializable{
+import com.br.mvsistemas.agenda.enums.SexoEnum;
+
+@Entity
+public class PessoaBean implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -2954087443444174579L;
 	
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id
+	@Column(name = "id_pessoa")
 	private long id;
+	
+	@Column(nullable=false, length=60)
 	private String nome;
+	
+	@Column(nullable=true, length=60)
 	private String endereco;
+	
+	@Column(nullable=true, length=11)
 	private String telefone;
+	
+	@Column(nullable=true, length=60)
 	private String bairro;
+	
+	@Column(nullable=true)
 	private String numero;
+	
+	@Column(nullable=true)
 	private String cidade;
+	
+	@Column(nullable=true, length=2)
 	private String uf;
+	
+	@Column(nullable=true, length=60)
 	private String email;
-	private Date nascimento;
-	private Date DtCadastro;
-	private Sexo sexo;
+	
+	@Temporal(value=TemporalType.TIMESTAMP)
+	private Calendar nascimento;
+	
+	@Temporal(value=TemporalType.TIMESTAMP)
+	private Calendar DtCadastro;
+	
+	@Enumerated(EnumType.STRING)
+	private SexoEnum sexo;
 	/**
 	 * @return the id
 	 */
@@ -135,37 +173,37 @@ public class Pessoa implements Serializable{
 	/**
 	 * @return the nascimento
 	 */
-	public Date getNascimento() {
+	public Calendar getNascimento() {
 		return nascimento;
 	}
 	/**
 	 * @param nascimento the nascimento to set
 	 */
-	public void setNascimento(Date nascimento) {
+	public void setNascimento(Calendar nascimento) {
 		this.nascimento = nascimento;
 	}
 	/**
 	 * @return the dtCadastro
 	 */
-	public Date getDtCadastro() {
+	public Calendar getDtCadastro() {
 		return DtCadastro;
 	}
 	/**
 	 * @param dtCadastro the dtCadastro to set
 	 */
-	public void setDtCadastro(Date dtCadastro) {
+	public void setDtCadastro(Calendar dtCadastro) {
 		DtCadastro = dtCadastro;
 	}
 	/**
 	 * @return the sexo
 	 */
-	public Sexo getSexo() {
+	public SexoEnum getSexo() {
 		return sexo;
 	}
 	/**
 	 * @param sexo the sexo to set
 	 */
-	public void setSexo(Sexo sexo) {
+	public void setSexo(SexoEnum sexo) {
 		this.sexo = sexo;
 	}
 	/* (non-Javadoc)
@@ -189,7 +227,7 @@ public class Pessoa implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Pessoa other = (Pessoa) obj;
+		PessoaBean other = (PessoaBean) obj;
 		if (id != other.id)
 			return false;
 		return true;

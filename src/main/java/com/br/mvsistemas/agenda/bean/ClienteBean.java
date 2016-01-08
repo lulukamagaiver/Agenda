@@ -2,18 +2,46 @@ package com.br.mvsistemas.agenda.bean;
 
 import java.io.Serializable;
 
-public class Cliente implements Serializable{
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.ForeignKey;
+
+import com.br.mvsistemas.agenda.enums.TipoPessoaEnum;
+
+@Entity
+@Table(name = "cliente")
+public class ClienteBean implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3462380793203624415L;
 	
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id
+	@Column(name = "id_cliente")
 	private long id;
+	
+	@Column(columnDefinition="NUMERIC (18,0)",nullable=true)
 	private String cpf_cnpj;
+	
+	@Column(length=50, nullable=true)
 	private String ie_rg;
-	private String tipo;
-	private Pessoa pessoa;
+	
+	@Enumerated(EnumType.STRING)
+	private TipoPessoaEnum tipo;
+	
+	@ManyToOne @JoinColumn(name="id_pessoa") @ForeignKey(name="FK_CLIENTE_PESSOA")
+	private PessoaBean pessoa;
 	/**
 	 * @return the id
 	 */
@@ -50,28 +78,29 @@ public class Cliente implements Serializable{
 	public void setIe_rg(String ie_rg) {
 		this.ie_rg = ie_rg;
 	}
+	
 	/**
 	 * @return the tipo
 	 */
-	public String getTipo() {
+	public TipoPessoaEnum getTipo() {
 		return tipo;
 	}
 	/**
 	 * @param tipo the tipo to set
 	 */
-	public void setTipo(String tipo) {
+	public void setTipo(TipoPessoaEnum tipo) {
 		this.tipo = tipo;
 	}
 	/**
 	 * @return the pessoa
 	 */
-	public Pessoa getPessoa() {
+	public PessoaBean getPessoa() {
 		return pessoa;
 	}
 	/**
 	 * @param pessoa the pessoa to set
 	 */
-	public void setPessoa(Pessoa pessoa) {
+	public void setPessoa(PessoaBean pessoa) {
 		this.pessoa = pessoa;
 	}
 	/* (non-Javadoc)
@@ -95,7 +124,7 @@ public class Cliente implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cliente other = (Cliente) obj;
+		ClienteBean other = (ClienteBean) obj;
 		if (id != other.id)
 			return false;
 		return true;

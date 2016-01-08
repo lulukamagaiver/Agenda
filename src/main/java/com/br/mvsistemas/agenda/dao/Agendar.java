@@ -2,6 +2,9 @@ package com.br.mvsistemas.agenda.dao;
 
 import java.awt.event.ActionEvent;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -10,6 +13,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.swing.text.MaskFormatter;
 
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
@@ -19,7 +23,7 @@ import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
-import com.br.mvsistemas.agenda.bean.Cliente;
+import com.br.mvsistemas.agenda.bean.ClienteBean;
 
 @ManagedBean
 @ViewScoped
@@ -33,20 +37,21 @@ public class Agendar implements Serializable {
 	private ScheduleModel eventModel;
 
 	private ScheduleEvent event = new DefaultScheduleEvent();
-	
-	private Cliente cliente;
-	
-	private Date inicio, fim, todoDia;
+
+	private ClienteBean cliente;
+
+	private Date inicio, fim;
+
+	private boolean todoDia;
 
 	@PostConstruct
 	public void init() {
 		eventModel = new DefaultScheduleModel();
-		eventModel.addEvent(new DefaultScheduleEvent("Champions League Match",hora(2016, 01, 07, 14, 30), hora(2016, 01, 2016, 15, 30)));
-		eventModel.addEvent(new DefaultScheduleEvent("Vinicius",new Date(),new Date()));
-		
-		/*eventModel.addEvent(new DefaultScheduleEvent(cliente.getPessoa().getNome(), inicio, fim));*/
+		eventModel.addEvent(new DefaultScheduleEvent("Champions League Match",
+				hora(2016, 0, 8, 14, 30), hora(2016, 0, 8, 15, 30)));
+		eventModel.addEvent(new DefaultScheduleEvent("Vinicius",
+				data("08/01/16 12:00"), data("08/01/16 12:45")));
 	}
-	
 
 	/**
 	 * @return the eventModel
@@ -107,14 +112,15 @@ public class Agendar implements Serializable {
 	/**
 	 * @return the cliente
 	 */
-	public Cliente getCliente() {
+	public ClienteBean getCliente() {
 		return cliente;
 	}
 
 	/**
-	 * @param cliente the cliente to set
+	 * @param cliente
+	 *            the cliente to set
 	 */
-	public void setCliente(Cliente cliente) {
+	public void setCliente(ClienteBean cliente) {
 		this.cliente = cliente;
 	}
 
@@ -126,7 +132,8 @@ public class Agendar implements Serializable {
 	}
 
 	/**
-	 * @param inicio the inicio to set
+	 * @param inicio
+	 *            the inicio to set
 	 */
 	public void setInicio(Date inicio) {
 		this.inicio = inicio;
@@ -140,7 +147,8 @@ public class Agendar implements Serializable {
 	}
 
 	/**
-	 * @param fim the fim to set
+	 * @param fim
+	 *            the fim to set
 	 */
 	public void setFim(Date fim) {
 		this.fim = fim;
@@ -149,14 +157,15 @@ public class Agendar implements Serializable {
 	/**
 	 * @return the todoDia
 	 */
-	public Date getTodoDia() {
+	public boolean isTodoDia() {
 		return todoDia;
 	}
 
 	/**
-	 * @param todoDia the todoDia to set
+	 * @param todoDia
+	 *            the todoDia to set
 	 */
-	public void setTodoDia(Date todoDia) {
+	public void setTodoDia(boolean todoDia) {
 		this.todoDia = todoDia;
 	}
 
@@ -172,19 +181,56 @@ public class Agendar implements Serializable {
 
 		event = new DefaultScheduleEvent();
 	}
-	
+
 	private Calendar today() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
- 
-        return calendar;
-    }
-	
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+				calendar.get(Calendar.DATE), 0, 0, 0);
+
+		return calendar;
+	}
+
+	/**
+	 * Metodo para gerar a Data no formato que o Schedule aceita
+	 * 
+	 * @param ano
+	 *            = 1900
+	 * @param mes
+	 *            = 0 a 11 = (Jan a Dez)
+	 * @param data
+	 *            = 1 a 31
+	 * @param hora
+	 *            = 00 a 23
+	 * @param minutos
+	 *            = 00 a 59
+	 * @return = "Fri Jan 08 14:30:00 GMT-03:00 2016"
+	 */
 	private Date hora(int ano, int mes, int data, int hora, int minutos) {
-        Calendar t = (Calendar) today().clone();
-        t.set(ano, mes, data, hora, minutos);
-         
-        return t.getTime();
-    }
-     
+
+		Calendar t = (Calendar) today().clone();
+		t.set(ano, mes, data, hora, minutos);
+
+		return t.getTime();
+	}
+
+	/**
+	 * Metodo que recebe a data no formato do Calendar e converte para o formato do Schedule
+	 * @param dia - Formato de data = dd/MM/yy HH:mm
+	 * @return "Fri Jan 08 14:30:00 GMT-03:00 2016"
+	 */
+	private Date data(String dia) {
+		Date nascimento = null;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+
+		try {
+			nascimento = sdf.parse(dia);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		System.out.println(nascimento);
+
+		return nascimento;
+
+	}
+
 }

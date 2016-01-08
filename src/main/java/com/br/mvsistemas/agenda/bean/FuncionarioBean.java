@@ -2,16 +2,34 @@ package com.br.mvsistemas.agenda.bean;
 
 import java.io.Serializable;
 
-public class Funcionario implements Serializable{  
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.ForeignKey;
+
+@Entity
+public class FuncionarioBean implements Serializable{  
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7237764642914478047L;
 	
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id
+	@Column(name = "id_funcionario")
 	private long id;
+	
+	@Column(nullable=true)
 	private String funcao;
-	private Pessoa pessoa;
+	
+	@ManyToOne @JoinColumn(name="id_pessoa") @ForeignKey(name="FK_FUNCIONARIO_PESSOA")
+	private PessoaBean pessoa;
 
 	/**
 	 * @return the id
@@ -44,14 +62,14 @@ public class Funcionario implements Serializable{
 	/**
 	 * @return the pessoa
 	 */
-	public Pessoa getPessoa() {
+	public PessoaBean getPessoa() {
 		return pessoa;
 	}
 
 	/**
 	 * @param pessoa the pessoa to set
 	 */
-	public void setPessoa(Pessoa pessoa) {
+	public void setPessoa(PessoaBean pessoa) {
 		this.pessoa = pessoa;
 	}
 
@@ -77,7 +95,7 @@ public class Funcionario implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Funcionario other = (Funcionario) obj;
+		FuncionarioBean other = (FuncionarioBean) obj;
 		if (id != other.id)
 			return false;
 		return true;
