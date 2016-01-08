@@ -21,6 +21,7 @@
 </h:head>
 <h:body>
 	<h:form id="frm">
+	<p:growl id="messages" showDetail="true" />
 		<div class="container-fluid">
 			<div class="">
 				Logo da Empresa, dados, ect.
@@ -41,51 +42,45 @@
 							<p:menuitem value="Serviços" />
 						</p:submenu>
 					</p:menu>
-				</div>
+				</div><!-- scheduleView.eventModel -->
 				<div class="span10">
-
 					<h:panelGrid columnClasses="value">
 						<h3 style="margin-top: 0">Agendamentos</h3>
 						<p:schedule locale="pt_br_schedule" id="schedule"
-							value="#{scheduleView.eventModel}" widgetVar="myschedule"
+							value="#{agendar.eventModel}" widgetVar="myschedule"
 							timeZone="GMT+3">
 
-							<p:ajax event="dateSelect"
-								listener="#{scheduleView.onDateSelect}" update="eventDetails"
-								oncomplete="PF('eventDialog').show();" />
-							<p:ajax event="eventSelect"
-								listener="#{scheduleView.onEventSelect}" update="eventDetails"
-								oncomplete="PF('eventDialog').show();" />
-							<p:ajax event="eventMove" listener="#{scheduleView.onEventMove}" />
-							<p:ajax event="eventResize"
-								listener="#{scheduleView.onEventResize}" />
+							<p:ajax event="dateSelect" listener="#{agendar.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+							<p:ajax event="eventSelect" listener="#{agendar.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+							<p:ajax event="eventMove" listener="#{agendar.onEventMove}" update="messages" />
+							<p:ajax event="eventResize" listener="#{agendar.onEventResize}" update="messages" />
 						</p:schedule>
 					</h:panelGrid>
 
-					<p:dialog widgetVar="eventDialog" header="Event Details"
+					<p:dialog widgetVar="eventDialog" header="Detalhes do Agendamento"
 						showEffect="clip" hideEffect="clip">
 						<h:panelGrid id="eventDetails" columns="2">
 							<p:outputLabel for="cliente" value="Cliente:" />
-							<p:inputText id="cliente" value="#{scheduleView.event.title}"
+							<p:inputText id="cliente" value="#{agendar.event.title}"
 								required="true" />
 
 							<p:outputLabel for="de" value="De:" />
 							<p:calendar locale="pt_BR" id="de"
-								value="#{scheduleView.event.startDate}" timeZone="GMT+3"
+								value="#{agendar.event.startDate}" timeZone="GMT+3"
 								pattern="dd/MM/yyyy HH:mm" />
 
 							<p:outputLabel for="ate" value="Até:" />
 							<p:calendar locale="pt_BR" id="ate"
-								value="#{scheduleView.event.endDate}" timeZone="GMT+3"
+								value="#{agendar.event.endDate}" timeZone="GMT+3"
 								pattern="dd/MM/yyyy HH:mm" />
 
 							<p:outputLabel for="tododia" value="O Dia todo:" />
 							<h:selectBooleanCheckbox id="tododia"
-								value="#{scheduleView.event.allDay}" />
+								value="#{agendar.event.allDay}" />
 
 							<p:commandButton type="resetar" value="Resetar:" />
 							<p:commandButton id="agendar" value="Agendar"
-								actionListener="#{scheduleView.addEvent}"
+								actionListener="#{agendar.addEvent}"
 								oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
 						</h:panelGrid>
 					</p:dialog>
