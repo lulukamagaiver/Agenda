@@ -13,6 +13,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.swing.text.MaskFormatter;
 
 import org.primefaces.event.ScheduleEntryMoveEvent;
@@ -43,9 +46,12 @@ public class Agendar implements Serializable {
 	private Date inicio, fim;
 
 	private boolean todoDia;
+	
+	
 
 	@PostConstruct
 	public void init() {
+		
 		eventModel = new DefaultScheduleModel();
 		eventModel.addEvent(new DefaultScheduleEvent("Champions League Match",
 				hora(2016, 0, 8, 14, 30), hora(2016, 0, 8, 15, 30)));
