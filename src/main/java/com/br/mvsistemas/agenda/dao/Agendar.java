@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -52,11 +53,19 @@ public class Agendar implements Serializable {
 	@PostConstruct
 	public void init() {
 		
-		eventModel = new DefaultScheduleModel();
-		eventModel.addEvent(new DefaultScheduleEvent("Champions League Match",
-				hora(2016, 0, 8, 14, 30), hora(2016, 0, 8, 15, 30)));
-		eventModel.addEvent(new DefaultScheduleEvent("Vinicius",
-				data("08/01/16 12:00"), data("08/01/16 12:45")));
+//		eventModel = new DefaultScheduleModel();
+//		
+//		eventModel.addEvent(new DefaultScheduleEvent("Champions League Match",
+//				hora(2016, 0, 8, 14, 30), hora(2016, 0, 8, 15, 30)));
+//		eventModel.addEvent(new DefaultScheduleEvent("Vinicius",
+//				data("08/01/16 12:00"), data("08/01/16 12:45")));
+		
+//		String nome = "Vinicius";
+//		Date inicio = data("");
+//		Date fim = data("");
+//		
+//		List<ScheduleEvent> eventos = eventModel.getEvents();
+//		eventos.add(event);
 	}
 
 	/**
